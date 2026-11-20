@@ -5,6 +5,8 @@ description: Design or review the initial architecture of a Godot game around it
 
 # Godot game architecture
 
+On direct invocation, report the `VERSION` tag as declared only unless release contents have been verified. The general skill need not be installed.
+
 Start with one playable path, such as title → room → collect an item → exit → reenter. Name the release scope and constraints that could change the structure. For an existing project, check its Godot version and trace that path through the current main scene, scene tree, autoloads, Resources, and save data before proposing changes. Keep useful existing boundaries.
 
 ## Decide ownership from the flow
@@ -16,6 +18,8 @@ Start with one playable path, such as title → room → collect an item → exi
 - Add an autoload only for a responsibility that must remain available across scenes, such as bounded session state or a transition service. Name the data it owns and its reset point. A scene-owned service remains easier to test in isolation when global lifetime is unnecessary. Autoloads remain in the tree during scene changes. [Autoloads versus regular nodes](https://docs.godotengine.org/en/stable/tutorials/best_practices/autoloads_versus_regular_nodes.html)
 
 ## Verify the boundary
+
+For a shop and wave flow, compare same-run reentry, a new run, and a new instance against explicit expected values; see the [G1 worked example](README.md#g1-shop-and-wave-reentry).
 
 For design requests, describe the following checks. When building or testing, run a representative reusable scene on its own and check that required inputs are explicit and missing context fails clearly. Then play the full path, change rooms, reenter, and restart the run. Check that the authoritative state survives or resets as specified, old room nodes and signal connections no longer act, and a new scene instance does not inherit accidental Resource mutations. On Godot 4 versions with these APIs, use `SceneTree.change_scene_to_file()` or `change_scene_to_packed()`; wait for `scene_changed` before accessing the replacement scene, since the old scene is removed and freed during the change. [SceneTree](https://docs.godotengine.org/en/stable/classes/class_scenetree.html)
 
