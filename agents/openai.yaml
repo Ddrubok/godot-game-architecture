@@ -1,0 +1,4 @@
+interface:
+  display_name: "Godot Game Architecture"
+  short_description: "Plan scene, state, and transition boundaries for a Godot game"
+  default_prompt: "Use $godot-game-architecture to design the first playable flow and scene/state ownership for my Godot game."
